@@ -1,8 +1,9 @@
 import pg from 'pg';
+import dotenv from 'dotenv';
 
-const PG_URI = 'postgres://cglufeah:veoFSd9ODQBExj7gWZn4l96FE31XhDog@bubble.db.elephantsql.com/cglufeah';
+dotenv.config();
+const PG_URI = process.env.PG_URI;
 
-// Create a new pool here using the connection string above
 const pool = new pg.Pool({
   connectionString: PG_URI,
 });
