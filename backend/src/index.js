@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+// import { setupWebSocket } from './websocket.js';
 
 const port = 3000;
 const app = express();
@@ -11,6 +12,8 @@ app.use(cors({
 
 app.use(express.json());
 console.log('In the server...')
+
+
 
 app.use('*', (req, res) => res.sendStatus(404));
 
@@ -24,6 +27,10 @@ app.use((err, req, res, next) => {
   return res.status(errorObj.status).json(errorObj.message);
 });
 
-app.listen(port, () => {
-  console.log(`Listening at port ${port}`);
+const server = app.listen(port, () => {
+  console.log(`Listening at port: ${port}`);
 });
+
+// setupWebSocket(server);
+
+export default app;
