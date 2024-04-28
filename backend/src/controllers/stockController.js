@@ -1,22 +1,21 @@
 import db from '../model/model.js';
 
-//Handle the logic for fetching current stock prices and adding stocks to the watchlist.
+//Handle the logic for fetching current stocks and adding stocks to the watchlist.
 
 const stockController = {};
   
-//Method to get the current stock prices
-stockController.getCurrentStockPrices = async (req, res, next) => {
+//Method to get the current stocks
+stockController.getCurrentStocks = async (req, res, next) => {
   try {
-    //Query the database to get the current stock prices
+    //Query the database to get the current stocks in watchlist
     const queryStr = 'SELECT * FROM watchlist';
     const data = await db.query(queryStr);
-    // console.log(data.rows)
-    res.locals.stockPrices = data.rows;
+    res.locals.stocks = data.rows;
     return next();
   }
   catch (err) {
     return next({
-      log: 'stockController.getCurrentStockPrices: ERROR: Error getting stock prices from the database',
+      log: 'stockController.getCurrentStocks: ERROR: Error getting stock from the database',
       status: 400,
       message: { err: 'An error occurred' },
     });
@@ -25,14 +24,20 @@ stockController.getCurrentStockPrices = async (req, res, next) => {
 
 //Method to add a stock to the watchlist
 stockController.addStockToWatchlist = async (req, res, next) => {
-  const { stock_symbol, stock_name } = req.body;
+  const { stock_symbol } = req.body;
 
   try {
+    if (!stock_symbol) { //check if input includes stock symbol and stock name
+      return next({
+        log: 'stockController.addStockToWatchlist: ERROR: Invalid input',
+        status: 400,
+        message: { err: 'Invalid input' },
+      });
+    }
     //Query the database to insert the new stock into the watchlist
-    const queryStr = 'INSERT INTO watchlist (stock_symbol, stock_name) VALUES ($1, $2)';
-    const values = [stock_symbol, stock_name];
+    const queryStr = 'INSERT INTO watchlist (stock_symbol) VALUES ($1)';
+    const values = [stock_symbol];
     const data = await db.query(queryStr, values);
-    // console.log(data);
     res.locals.addedStock = `${stock_symbol} added to watchlist`;
     return next();
   }
