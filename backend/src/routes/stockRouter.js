@@ -16,7 +16,7 @@ stockRouter.get('/',
 stockRouter.post('/', 
   stockController.addStockToWatchlist,
   (req, res) => {
-  res.status(200).json(res.locals.addedStock);
+  res.status(201).json(res.locals.addedStock);
   }
 );
 

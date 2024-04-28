@@ -38,7 +38,7 @@ stockController.addStockToWatchlist = async (req, res, next) => {
     const queryStr = 'INSERT INTO watchlist (stock_symbol) VALUES ($1)';
     const values = [stock_symbol];
     const data = await db.query(queryStr, values);
-    res.locals.addedStock = `${stock_symbol} added to watchlist`;
+    res.locals.addedStock = stock_symbol;
     return next();
   }
   catch (err) {

@@ -15,3 +15,6 @@ To set up and run the application, follow these steps:
   ```
 
 
+start server
+start websocket
+start frontend
