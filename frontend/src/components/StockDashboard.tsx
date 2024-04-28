@@ -93,7 +93,7 @@ const StockDashboard = () => {
   
   return (
     <>
-      <h1>Stock Dashboard</h1>
+      <h1>Stock Watcher Dashboard</h1>
       <form onSubmit={handleSubmit}>
         <input 
         type='text'
