@@ -1,5 +1,5 @@
 import { WebSocketServer } from 'ws';
-
+import { getStockPrices} from './controllers/stockPriceStreamer.js'
 const wss = new WebSocketServer({ port:8080 }); //websocket server located at ws://localhost:8080
 
 wss.on('connection', ws => {
@@ -11,9 +11,9 @@ wss.on('connection', ws => {
 
   ws.send('Hello! Message from server!'); //send a message to the client when they connect
 
-  const sendStockUpdates = () => {
-      // ws.send(JSON.stringify({ /* latest stock data */ }));
-      ws.send('Latest sock data from websocket!');
+  const sendStockUpdates = async () => {
+      const stockData = await getStockPrices(); //fetch the latest stock data
+      ws.send(JSON.stringify({ stockData }));
   };
 
   const interval = setInterval(sendStockUpdates, 1000); //send stock updates every second
